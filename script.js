@@ -1,14 +1,35 @@
-const container = document.querySelector('.boxContainer');
-const body = document.querySelector('body')
-console.log(document.querySelector('#canvasSizeSelect'.value));
-const startButton = document.querySelector('.startButton')
-startButton.addEventListener('click', () => {
-    doSketchPad(document.querySelector('#canvasSizeSelect').value)
-})
+let container = document.querySelector('.boxContainer');
+const body = document.querySelector('body');
+const slider = document.querySelector('#canvasSizeSelect');
+const output = document.getElementById('sliderDemo');
+const startButton = document.querySelector('.startButton');
 let maxBoxes = 32;
 let canvasIsExist = false;
+slider.oninput = function() {
+    output.innerHTML = this.value;
+};
+startButton.addEventListener('click', () => {
+    doSketchPad(document.querySelector('#canvasSizeSelect').value);
+});
 const doSketchPad = function(maxBoxes) {
-    if (canvasIsExist) removeBoxes();
+    if (canvasIsExist) {
+        removeContainer();
+        container = recreateContainer();
+        createBoxes();
+    } else {
+        createBoxes(container);
+    };
+};
+const removeContainer = function() {
+    container.remove();
+};
+const recreateContainer = function() {
+    let newContainer = document.createElement('div');
+    newContainer.classList.add('boxContainer');
+    body.appendChild(newContainer);
+    return newContainer;
+}
+const createBoxes = function() {
     for (i = 0; i < (maxBoxes * maxBoxes); i++) {
         let item = document.createElement('div');
         item.style.cssText = `background-color : white; height: ${(800 / maxBoxes)}px; width: ${(800 / maxBoxes)}px;`
@@ -25,8 +46,4 @@ const doSketchPad = function(maxBoxes) {
         });
         canvasIsExist = true;
     };
-};
-const removeBoxes = function() {
-    container.remove();
-    container.append
-};
+}
