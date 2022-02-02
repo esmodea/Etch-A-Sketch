@@ -3,21 +3,20 @@ const body = document.querySelector('body');
 const slider = document.querySelector('#canvasSizeSelect');
 const output = document.getElementById('sliderDemo');
 const startButton = document.querySelector('.startButton');
-let maxBoxes = 32;
 let canvasIsExist = false;
 slider.oninput = function() {
     output.innerHTML = this.value;
 };
 startButton.addEventListener('click', () => {
-    doSketchPad(document.querySelector('#canvasSizeSelect').value);
+    doSketchPad(slider.value);
 });
 const doSketchPad = function(maxBoxes) {
     if (canvasIsExist) {
         removeContainer();
         container = recreateContainer();
-        createBoxes();
+        createBoxes(maxBoxes);
     } else {
-        createBoxes(container);
+        createBoxes(maxBoxes);
     };
 };
 const removeContainer = function() {
@@ -29,7 +28,7 @@ const recreateContainer = function() {
     body.appendChild(newContainer);
     return newContainer;
 }
-const createBoxes = function() {
+const createBoxes = function(maxBoxes) {
     for (i = 0; i < (maxBoxes * maxBoxes); i++) {
         let item = document.createElement('div');
         item.style.cssText = `background-color : white; height: ${(800 / maxBoxes)}px; width: ${(800 / maxBoxes)}px;`
